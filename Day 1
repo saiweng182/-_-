@@ -1,0 +1,23 @@
+#处理csv文件只有一列的问题。
+#分析赛题。
+
+import pandas as pd
+import numpy as np
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+warnings.filterwarnings('ignore')
+
+train = pd.read_csv(r'D:\\BaiduNetdiskDownload\\Data\\二手车\\used_car_train_20200313.csv')
+test = pd.read_csv(r'D:\\BaiduNetdiskDownload\\Data\\二手车\\used_car_testA_20200313.csv')
+
+#列名
+col_new = list(train.columns.str.split(' '))[0]
+
+train_new = train.iloc[:,0].str.split(' ',expand=True)
+train_new = train_new.rename(columns=dict(zip(range(len(col_new)),col_new)))
+test_new = test.iloc[:,0].str.split(' ',expand=True)
+test_new = test_new.rename(columns=dict(zip(range(len(col_new)),col_new)))
+
+#保存
+train_new.to_csv('D:\\BaiduNetdiskDownload\\Data\\二手车\\train.csv')
+test_new.to_csv('D:\\BaiduNetdiskDownload\\Data\\二手车\\test.csv')
